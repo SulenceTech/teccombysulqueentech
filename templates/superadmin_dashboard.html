@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Superadmin_Dashboard {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='superadmin_dashboard.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbarContent" data-bs-smooth-scroll="true" tabindex="0">
+<a href="{{ url_for('superadmin_dashboard') }}"></a>
+<!-- Top navbar -->
+<nav class="navbar navbar-dark bg-success fixed-top">
+  <div class="container-fluid">
+      <div class="logo">
+            <img src="static/images1/logo.png" alt="">
+      </div>
+    <span class="navbar-brand mb-0 h1">
+        <div class="d-flex">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light">Logout</a>
+        </div>
+    </span>
+  </div>
+</nav>
+
+
+{% block content %}{% endblock %}
+
+
+<div class="container-fluid">
+  <div class="row">
+      <!-- Sidebar -->
+<nav class="col-12 col-md-2 sidebar border-end py-3 min-vh-100">
+  <ul class="nav flex-column w-100 align-items-center" id="navbarContent">
+  <li class="nav-item  border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#introduction">Introduction</a></li>
+  <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#create_admin_teacher">Create Admin</a></li>
+  <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#create_backup">Create Backup</a></li>
+  <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#message">Send Message</a></li>
+      <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#promotion_password">Promotion Password</a></li>
+  <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#promotion">Promotion</a></li>
+  <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#report">Report</a></li>
+  <li class="nav-item border-bottom border-primary border-1 mb-2" style="width: 100%;"><a class="nav-link text-white" href="#grade">Grade Configuration</a></li>
+  <!-- Add as many as needed -->
+  </ul>
+</nav>
+
+
+    <!-- Main content -->
+    <main class="col-12 col-md-10 px-4 py-4 main-content">
+        <div id="introduction" class="introduction">
+        <div class="sub-tittle">
+            <h2>INTRDUCTION</h2>
+        </div>
+      <h4>Welcome, SuperAdmin</h4>
+      <p>As the Super Admin, you have full control over the entire system. Your role is essential for managing platform-wide settings,
+        overseeing all administrative accounts, maintaining data integrity, and ensuring system security.
+        From this dashboard, you can: Create and manage other admin users, Perform system backups and restorations,
+        Monitor activity logs and user actions, Send important messages or announcements, Configure core system settings.</p>
+     </div>
+
+      <div id="create_admin_teachers" class="card mt-4">
+        <div class="sub-tittle">
+            <h2>CREATE/EDIT/DELETE</h2>
+        </div>
+        <div class="card-body1">
+            <div class="flex1">
+            <h5 class="card-title">Note:</h5>
+            <p class="card-text">As Super Admin you can create, edit, or delete both Admin and Teacher accounts here.
+            Each action takes effect instantly and may impact system access and data ownership.
+            Please double-check all details before saving and be sure you really want to delete an account this step is irreversible.</p>
+            </div>
+            <div class="flex2">
+                <a class="nav-link btn-primary text-white"
+                        href="{{ url_for('create_admin') }}">
+                            Create&nbsp;Admin
+                            </a>
+                <a class="nav-link btn-primary text-white"
+                        href="{{ url_for('create_admin') }}">
+                            Create&nbsp;Admin
+                            </a>
+                <a class="nav-link btn-primary text-white"
+                        href="{{ url_for('create_admin') }}">
+                            Create&nbsp;Admin
+                            </a>
+            </div>
+        </div>
+      </div>
+
+      <div  id="create_backup" class="card mt-4">
+        <div class="sub-tittle">
+            <h2>CREATE BACKUP</h2>
+        </div>
+        <div class="card-body1">
+          <div class="flex">
+          <h5 class="card-title"><i class="bi bi-hdd-stack"></i> System → Backups</h5>
+          <button id="backupBtn" class="btn btn-success">
+          <i class="bi bi-cloud-download"></i> Create Full Backup
+          </button>
+          </div>
+     <!-- Toast -->
+     <div class="position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast text-bg-info" role="alert">
+      <div class="d-flex">
+            <div class="toast-body" id="toastBody">Starting…</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto"data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+        </div>
+        </div>
+        </div>
+      </div>
+
+
+      <div id="message" class="card mt-4">
+        <div class="sub-tittle">
+            <h2>SEND MESSAGE/EMAIL</h2>
+        </div>
+        <div class="card-body1">
+          <div class="flex">
+          <h5 class="card-title"><i class="bi bi-hdd-stack"></i>Message and Email</h5>
+          <button class="btn btn-success">
+          <i class="bi bi-cloud-download"></i> Message and Email
+          </button>
+          </div>
+        </div>
+      </div>
+
+        <!-- Promotion Password Management -->
+        <div id="promotion_password" style="display: flex; flex-direction: column">
+    <div class="card mt-4">
+  <div class="sub-tittle">
+    <h2>PROMOTION PASSWORD</h2>
+  </div>
+  <div class="card-body1">
+    <div class="mb-3">
+      <h5>Latest One-Time Password</h5>
+      {% if latest_password %}
+        <div class="alert alert-success d-flex justify-content-between align-items-center">
+          <strong>{{ latest_password }}</strong>
+          <span class="badge bg-secondary">Valid Until Used</span>
+        </div>
+      {% else %}
+        <div class="alert alert-warning">No active password. Generate one below.</div>
+      {% endif %}
+    </div>
+  </div>
+
+    <form action="{{ url_for('generate_superadmin_password') }}" method="post">
+      <button type="submit" class="btn btn-primary">Generate New Password</button>
+    </form>
+
+    <hr>
+    <h5>Password History (Last 10)</h5>
+    <ul class="list-group">
+      {% for p in password_history %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ p.password }}
+          <span class="badge bg-{{ 'success' if not p.used else 'danger' }}">
+            {{ 'Unused' if not p.used else 'Used' }}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
+        <div id="promotion" class="card mt-4">
+        <div class="sub-tittle">
+            <h2>PROMOTION</h2>
+        </div>
+        <div class="card-body1">
+          <div class="flex">
+          <h5 class="card-title"><i class="bi bi-hdd-stack"></i>Admin and Teachers Promotion Scheme</h5>
+          <button class="btn btn-success">
+          <i class="bi bi-cloud-download"></i> Promotion Setup
+          </button>
+          </div>
+          </div>
+        </div>
+
+      <div id="report" class="card mt-4">
+        <div class="sub-tittle">
+            <h2>REPORT</h2>
+        </div>
+        <div class="card-body1">
+          <div class="flex">
+          <h5 class="card-title"><i class="bi bi-hdd-stack"></i>All Report</h5>
+          <button class="btn btn-success">
+          <i class="bi bi-cloud-download"></i> Veiw Report
+          </button>
+          </div>
+         </div>
+      </div>
+
+        <div id="grade" class="card mt-4">
+        <div class="sub-tittle">
+            <h2>GRADE</h2>
+        </div>
+        <div class="card-body1">
+          <div class="flex">
+          <h5 class="card-title"><i class="bi bi-hdd-stack"></i>Grades Configuration</h5>
+          <button class="btn btn-success">
+          <i class="bi bi-cloud-download"></i> Update Grades
+          </button>
+          </div>
+        </div>
+        </div>
+  </main>
+</div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<footer class="footer">
+    <h3>Superadmin Dashboard</h3>
+    <p>&copy; 2025 Superadmin's. All rights reserved.</p>
+    <p>📞 (555) 123-4567 | hello@superadmin.com</p>
+</footer>
+
+
+</body>
+</html>

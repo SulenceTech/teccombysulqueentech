@@ -1,0 +1,353 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#header nav {
+    background-color: #004080;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.navbar-nav .nav-link,
+.dropdown-menu .dropdown-item {
+    color: white;
+}
+
+.dropdown-menu {
+    background-color: #0059b3;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #004080;
+    color: #fff;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffcc00;
+}
+
+.menu-icon {
+    display: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+/* about....................................................................................... */
+main {
+    margin-top: 100px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.about{
+    display: flex;
+    flex-direction: row;
+}
+
+.about-us{
+    flex-basis: 75%;
+}
+
+.about-us p{
+    text-align: justify;
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+
+.subtitle{
+    color: black;
+    font-size: 56;
+    font-weight: 600;
+}
+
+#menu-display .menuimages{
+    display: flex;
+    flex-direction: row;
+}
+#menu-display{
+    margin-left: 50px;
+}
+
+.menuimages img {
+    width: 320px;
+    height: 200px;
+    margin: 5px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.signature{
+    margin-right: 10px;
+}
+
+/* contact section...................................................................... */
+#contact{
+    background: #9a7400;
+    padding: 50px 50px 100px 50px;
+    color: white;
+}
+
+.container3 .row{
+    display: flex;
+    flex-direction: row;
+}
+.contact-left{
+    flex-basis: 55%;
+    margin-right: 30px;
+    text-align: center;
+}
+
+.contact-left .sub-tittle{
+    color: #00339a;
+}
+
+.logo2 img{
+    width: 95px;
+    height: 70px;
+}
+
+.contact-right{
+    flex-basis: 40%;
+}
+
+.contact-left p{
+    margin-top: 30px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.social-icons{
+    margin-top: 10px;
+}
+
+.social-icons a{
+    text-decoration: none;
+    font-size: 30px;
+    margin-right: 15px;
+    color: #ababab;
+    display: inline-block;
+    transition: transform 0.5s;
+}
+
+.social-icons a:hover{
+    color: #00339a;
+    transform: translateY(-5px);
+}
+
+.btn.btn2{
+    display: inline-block;
+    background: #012c82;
+    width: 140px;
+    height: 50px;
+    color: rgb(232, 232, 235);
+    font-size: 16px;
+}
+.btn.btn2:hover{
+    background: #021850;
+}
+
+.contact-right form{
+    width: 100%;
+}
+
+form input, form textarea{
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: #262626;
+    padding: 15px;
+    margin: 5px 0;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+form p{
+    line-height: 1.5;
+    font-size: 20px;
+}
+
+form .btn2{
+    padding: 10px 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+@media (max-width: 425px) {
+    .menuimages img {
+        width: 140px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 600px) {
+    .about{
+        display: flex;
+        flex-direction: row;
+    }
+
+    #menu-display .menuimages{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menuimages img {
+        width: 140px;
+        height: 80px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .about{
+        display: flex;
+        flex-direction: row;
+    }
+
+    #menu-display .menuimages{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 991px) {
+    .menu-icon {
+        display: block;
+    }
+
+    #menuList {
+        display: none;
+        flex-direction: column;
+        background-color: #004080;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+    }
+
+    #menuList.show {
+        display: block;
+    }
+    #menuList li {
+        padding: 10px 20px;
+    }
+}
+.dropdown-menu {
+    background-color: #ffcc00 !important;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #000; /* Black text for contrast */
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: #e6b800 !important; /* Slightly darker on hover */
+    color: #000 !important;
+}
+
+/* Position submenus to the right */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #ffcc00 !important; /* same background for submenu */
+}
+
+/* Show submenu on hover (desktop) */
+@media (hover: hover) {
+  .dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+    .about {
+        flex-direction: column;
+        padding: 0 15px;
+    }
+
+    .contact-left,
+    .contact-right {
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    .container3 .row {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .contact-right form input,
+    .contact-right form textarea {
+        font-size: 16px;
+    }
+
+    .btn.btn2 {
+        width: 100%;
+    }
+
+    .main-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .subtitle {
+        font-size: 32px;
+    }
+
+    .about-us p {
+        font-size: 16px;
+    }
+
+    .social-icons a {
+        font-size: 24px;
+        margin-right: 10px;
+    }
+
+    .btn.btn2 {
+        height: auto;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .menuimages img {
+        width: 100%;
+        height: auto;
+    }
+
+    .logo img,
+    .logo2 img {
+        height: auto;
+        width: 80px;
+    }
+}
+
+
+

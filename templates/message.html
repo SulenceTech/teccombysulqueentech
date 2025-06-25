@@ -1,0 +1,110 @@
+{% extends "base.html" %}{% block content %}
+<h1>Send Message / E-mail</h1>
+
+<form method="post" class="vstack gap-3">
+
+  <div>
+    <label class="form-label fw-bold">Recipients</label>
+    <select name="recipient_type" id="recipient_type" class="form-select" required>
+      <option value="all_admin">All Admins</option>
+      <option value="all_teacher">All Teachers</option>
+      <option value="individual">Individual …</option>
+    </select>
+  </div>
+
+  <div id="individualPick" class="d-none">
+    <label class="form-label">Choose user</label>
+    <select name="user_id" class="form-select">
+      {% for u in users %}<option value="{{u.id}}">{{u.fullname}} ({{u.role}})</option>{% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label class="form-label fw-bold">Subject</label>
+    <input name="subject" class="form-control" required>
+  </div>
+
+  <div>
+    <label class="form-label fw-bold">Body</label>
+    <textarea name="body" rows="6" class="form-control" required></textarea>
+  </div>
+
+  <button class="btn btn-primary">Send</button>
+</form>
+
+<script>
+document.getElementById('recipient_type').addEventListener('change', e=>{
+  document.getElementById('individualPick')
+          .classList.toggle('d-none', e.target.value !== 'individual');
+});
+</script>
+{% endblock %}
+
+
+
+from flask import (render_template, request, redirect,
+                   url_for, flash, g, current_app as app)
+from mysql.connector import connect
+import smtplib, ssl, email.message
+from . import msg_bp
+
+def db():
+    # simple helper – use your existing connection pool
+    return connect(user="root", password="secret", database="portal")
+
+# ---------- util: send email -----------------------
+def send_email(to, subject, body):
+    msg = email.message.EmailMessage()
+    msg["From"] = app.config["DEFAULT_SENDER"][1]
+    msg["To"]   = to
+    msg["Subject"] = subject
+    msg.set_content(body)
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP(app.config["MAIL_SERVER"], app.config["MAIL_PORT"]) as s:
+        if app.config["MAIL_USE_TLS"]:
+            s.starttls(context=context)
+        s.login(app.config["MAIL_USERNAME"], app.config["MAIL_PASSWORD"])
+        s.send_message(msg)
+
+# ---------- compose form ---------------------------
+@msg_bp.route("/messages/compose", methods=["GET", "POST"])
+def compose():
+    if not g.current_user.is_superadmin:
+        abort(403)
+
+    if request.method == "POST":
+        recipient_type = request.form["recipient_type"]   # all_admin, all_teacher, individual
+        subject = request.form["subject"]
+        body    = request.form["body"]
+
+        cnx = db(); cur = cnx.cursor()
+        if recipient_type.startswith("all_"):
+            role = "admin" if recipient_type == "all_admin" else "teacher"
+            cur.execute("SELECT id, email FROM users WHERE role=%s", (role,))
+            recipients = cur.fetchall()
+            cur.execute("""INSERT INTO messages
+                            (sender_id, recipient_role, subject, body)
+                           VALUES (%s,%s,%s,%s)""",
+                           (g.current_user.id, role, subject, body))
+            msg_id = cur.lastrowid
+            for uid, email_addr in recipients:
+                # (optional) insert per-user join table if you need read/unread flags
+                send_email(email_addr, subject, body)
+        else:   # individual
+            uid  = int(request.form["user_id"])
+            cur.execute("SELECT email, role FROM users WHERE id=%s", (uid,))
+            email_addr, role = cur.fetchone()
+            cur.execute("""INSERT INTO messages
+                            (sender_id, recipient_id, subject, body)
+                           VALUES (%s,%s,%s,%s)""",
+                           (g.current_user.id, uid, subject, body))
+            msg_id = cur.lastrowid
+            send_email(email_addr, subject, body)
+
+        cnx.commit(); cur.close(); cnx.close()
+        flash(f"Message #{msg_id} sent.")
+        return redirect(url_for("msg.compose"))
+
+    # GET – render form
+    return render_template("compose.html")

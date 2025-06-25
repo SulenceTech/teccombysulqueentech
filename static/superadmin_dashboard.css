@@ -1,0 +1,132 @@
+    body{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .row {
+      padding-top: 56px;
+    }
+
+
+    .logo img{
+        width: 65px;
+        height: 50px;
+    }
+
+    /* Sidebar base */
+    .sidebar {
+        background-color: #060606;
+    }
+    .sidebar::-webkit-scrollbar {
+        width: 2px;
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+    }
+    .nav-item:hover{
+        background: #006634;
+        color: white;
+    }
+
+    .introduction{
+        height: 400px;
+        margin-top: 30px;
+        padding: 25px 25px 25px 25px;
+        background: #e2e5ed;
+        border-radius: 15px;
+    }
+    .sub-tittle {
+        background-color: #00339a;
+        height: 60px;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        color: white;
+        width: 100%;
+    }
+    .introduction p{
+        font-size: 17px;
+        font-weight: 400;
+    }
+
+    .card{
+        padding: 25px 25px 25px 25px;
+    }
+
+    .card-body1{
+        display: flex;
+        flex-direction: row;
+    }
+    .card-body1 .flex1{
+        flex-basis: 45%;
+        margin-right: 20px;
+        text-align: justify;
+    }
+    .card-body1 .flex2{
+        flex-basis: 45%;
+    }
+    .flex2{
+        display: flex;
+        flex-direction: column;
+    }
+    .flex2 .nav-link{
+        margin-bottom: 20px;
+        height: 50px;
+        border: none;
+        border-radius: 8px;
+        background-color: #006634;
+        padding: 10px;
+    }
+
+    .flex2 .nav-link a{
+        text-align: center;
+        color: white;
+        font-size: 18px;
+        font-weight: 400;
+    }
+    .card-body1 .flex{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer {
+        background: #006634;
+        color: white;
+        text-align: center;
+        padding: 3rem 2rem;
+    }
+
+    .footer h3 {
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+
+    /* Overlay sidebar for small screens */
+    @media (max-width: 767.98px) {
+      .sidebar {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 56px);
+        z-index: 1050;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto; /* allows scrolling */
+        padding-top: 20px;
+      }
+      .main-content {
+        display: none; /* Hide content under the sidebar */
+      }
+      .sidebar ul {
+        width: 100%;
+        padding: 0 1rem;
+    }
+      .logo img{
+        width: 45px;
+        height: 35px;
+      }
+    }
+

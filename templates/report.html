@@ -1,0 +1,152 @@
+{% extends "admin_dashboard.html" %}
+{% block title %}
+  <title>All Teachers • TeacherPortal</title>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h3 style="color: white">All Registered Teachers</h3>
+
+  <div class="d-flex justify-content-between mb-3">
+    <input id="searchInput" type="text" class="form-control w-50" placeholder="Search by id, name, email, subject, etc...">
+    <div>
+      <button onclick="exportToCSV()" class="btn btn-sm btn-outline-primary me-2">Export CSV</button>
+      <button onclick="window.print()" class="btn btn-sm btn-outline-secondary">Print</button>
+    </div>
+  </div>
+
+  {% if teachers %}
+  <div class="table-responsive">
+    <table id="teachersTable" class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>LGA</th>
+          <th>State</th>
+          <th>Subject</th>
+          <th>School</th>
+          <th>Qualification</th>
+          <th>DOB</th>
+          <th>Date Joined</th>
+          <th>Level</th>
+          <th>Status</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for teacher in teachers %}
+        <tr>
+          <td>{{ teacher.id }}</td>
+          <td>{{ teacher.name }}</td>
+          <td>{{ teacher.email }}</td>
+          <td>{{ teacher.phone }}</td>
+          <td>{{ teacher.gender }}</td>
+          <td>{{ teacher.address }}</td>
+          <td>{{ teacher.lga }}</td>
+          <td>{{ teacher.state }}</td>
+          <td>{{ teacher.subject }}</td>
+          <td>{{ teacher.school_name }}</td>
+          <td>{{ teacher.qualification }}</td>
+          <td>{{ teacher.date_of_birth }}</td>
+          <td>{{ teacher.date_joined }}</td>
+          <td>{{ teacher.level }}</td>
+          <td>{{ teacher.status }}</td>
+          <td>{{ teacher.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center mt-3">
+    <button id="seeMoreBtn" class="btn btn-outline-primary">See More</button>
+  </div>
+
+  {% else %}
+    <p class="text-muted">No teachers found.</p>
+  {% endif %}
+</div>
+
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const table = document.getElementById("teachersTable");
+  const seeMoreBtn = document.getElementById("seeMoreBtn");
+
+  const rowsPerPage = 10;
+  let visibleIndex = 0;
+
+  function getFilteredRows() {
+  const query = searchInput.value.trim().toLowerCase();
+  const rows = Array.from(table.querySelectorAll("tbody tr"));
+
+  return rows.filter(row => {
+    return Array.from(row.cells).some(cell => {
+      const text = cell.textContent.trim();
+      return text.toLowerCase().includes(query) || text.includes(query);
+    });
+  });
+}
+
+
+  function updateDisplay() {
+    const filteredRows = getFilteredRows();
+    const totalToShow = visibleIndex + rowsPerPage;
+
+    // Hide all rows
+    Array.from(table.querySelectorAll("tbody tr")).forEach(row => row.style.display = "none");
+
+    // Show only filtered and paginated rows
+    filteredRows.forEach((row, index) => {
+      row.style.display = index < totalToShow ? "" : "none";
+    });
+
+    // Show/hide See More button
+    seeMoreBtn.style.display = totalToShow >= filteredRows.length ? "none" : "inline-block";
+  }
+
+  // Initial display
+  visibleIndex = 0;
+  updateDisplay();
+
+  seeMoreBtn.addEventListener("click", () => {
+    visibleIndex += rowsPerPage;
+    updateDisplay();
+  });
+
+  searchInput.addEventListener("keyup", () => {
+    visibleIndex = 0;
+    updateDisplay();
+  });
+
+  function exportToCSV() {
+    let csv = "";
+    const rows = Array.from(table.querySelectorAll("tbody tr")).filter(row => row.style.display !== "none");
+
+    // Header
+    const headerCells = table.querySelectorAll("thead th");
+    const headerRow = Array.from(headerCells).map(cell => '"' + cell.textContent + '"').join(",");
+    csv += headerRow + "\n";
+
+    // Data
+    rows.forEach(row => {
+      const cells = row.querySelectorAll("td");
+      const rowData = Array.from(cells).map(cell => '"' + cell.textContent.replace(/"/g, '""') + '"').join(",");
+      csv += rowData + "\n";
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'teachers_list.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  window.exportToCSV = exportToCSV;
+</script>
+{% endblock %}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='teacher_dashboard.css') }}">
+  <link rel="stylesheet" href="teacher.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid">
+      <div class="logo">
+            <img src="static/images1/logo.png" alt="Logo">
+        </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#teacherNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="teacherNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+            <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('edit_teacher_profile') }}">Edit Profile</a>
+          </li>
+
+        <!-- Notifications Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown">
+                Notifications
+            {% if notifications|length > 0 %}
+                <span class="badge bg-danger">{{ notifications|length }}</span>
+            {% endif %}
+            </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" style="max-height: 300px; overflow-y: auto;">
+            {% if notifications %}
+            {% for note in notifications %}
+        <li>
+            <a class="dropdown-item" href="{{ url_for('view_notification', notification_id=note[0]) }}">
+                {{ note[1][:40] }}...
+            </a>
+        </li>
+            {% endfor %}
+            {% else %}
+         <li><span class="dropdown-item text-muted">No new notifications</span></li>
+            {% endif %}
+        </ul>
+        </li>
+
+
+
+          <!-- Email/Message Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              Email/Message
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Email</a></li>
+              <li><a class="dropdown-item" href="#">Message</a></li>
+            </ul>
+          </li>
+
+          <!-- Personal Report -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('view_teacher_profile') }}">Personal Report</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+
+  <main class="col-12 col-md-12 px-4 py-4 main-content">
+        <div class="container1">
+        <div class="about">
+            <p>FOR TEACHERS</p>
+            <h1 class="subtitle">Keeping Teachers<br> Informed, Organized,<br>and Empowered</h1>
+        <p class="p">
+            Your personalized platform for managing your professional records,<br>
+            accessing promotions, viewing personal reports, and staying
+        </p>
+        <div class="btn">Learn More</div>
+        </div>
+        <div class="about-us">
+            <img src="static/images1/tescom33-01.jpg">
+        </div>
+        </div>
+  </main>
+
+        <!-- contact-section................................................................ -->
+
+    <div id="contact">
+        <div class="container3">
+            <div class="row">
+                <div class="contact-left">
+                    <div class="logo2">
+                    <img src="static/images1/logo.png" alt="">
+                    </div>
+                    <h1 class="sub-tittle">Kogi State TESCOM</h1>
+                    <p>we believe that education is the cornerstone of sustainable development,
+                        and our teachers are the builders of the future. We are dedicated to creating
+                        an environment where teaching is not just a job, but a noble and fulfilling profession.</p>
+                </div>
+                <div class="contact-right">
+                    <h1 class="sub-tittle">Contact Us</h1>
+                    <form>
+                        <input type="text" name="Name" placeholder="Your Name" required>
+                        <input type="text" name="Email" placeholder="Your Email" required>
+                        <textarea Name="Message" rows="6" placeholder="Your Message"></textarea>
+                        <button type="submit" class="btn btn2">Send Message</button>
+                        <h3>Call Us:</h3>
+                    <p>(+234) 801 234 5678<br> (+234) 801 234 5678</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fa-brands fa-square-x-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+     </div>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

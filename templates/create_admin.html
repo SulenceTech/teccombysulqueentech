@@ -1,0 +1,46 @@
+{% extends "superadmin_dashboard.html" %}
+{% block title %}
+    <title>Create Admin • TeacherPortal</title>
+{% endblock %}
+{% block content %}
+<div class="card position-fixed top-50 start-50 translate-middle shadow-lg"
+     style="z-index:1055; width: 28rem;">
+
+  <div class="card-body p-4">
+    <h2 class="card-title mb-4 text-center fw-semibold">Create a New Admin</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('create_admin') }}">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email"
+               placeholder="admin@example.com" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password"
+               placeholder="••••••••" minlength="6" required>
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Create Admin</button>
+      </div>
+    </form>
+
+    <div class="text-center mt-3">
+      <a href="{{ url_for('superadmin_dashboard') }}" class="text-decoration-none">
+        &larr; Back to dashboard
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
