@@ -19,11 +19,22 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 Bootstrap(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'kogi_state_tescom'
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'localhost')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD', '')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB', 'kogi_state_tescom')
 mysql = MySQL(app)
+
+
+@app.route('/test_db')
+def test_db():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SHOW TABLES;")
+        tables = cur.fetchall()
+        return f"✅ Connected! Tables: {tables}"
+    except Exception as e:
+        return f"❌ DB connection failed: {str(e)}"
 
 # All login function.................................................................
 class SuperAdmin:
